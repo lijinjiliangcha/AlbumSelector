@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btn.setOnClickListener {
-            AlbumActivity.startActivity(this, 3, 9)
+            AlbumActivity.startActivity(this, 3, 20)
         }
 
     }

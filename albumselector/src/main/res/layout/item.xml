@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="2dp">
 
     <ImageView
         android:id="@+id/iv_img"
@@ -15,15 +15,21 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_select"
+    <TextView
+        android:id="@+id/tv_select"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@mipmap/hollow"
+        android:textColor="@color/checkTextColor"
+        android:includeFontPadding="false"
+        android:gravity="center"
+        android:textSize="11sp"
+        android:background="@drawable/shape_unchecked"
         app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.2" />
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintWidth_percent="0.17" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

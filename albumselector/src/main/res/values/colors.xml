@@ -3,4 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!--整体背景-->
+    <color name="bg">#eeeeee</color>
+    <!--标题栏颜色-->
+    <color name="titleColor">#F6BC03</color>
+    <!--标题栏标题颜色-->
+    <color name="titleTextColor">#fff</color>
+    <!--选中按钮的颜色-->
+    <color name="checkColor">#5693FE</color>
+    <!--选中文字颜色-->
+    <color name="checkTextColor">#fff</color>
+    <!--阴影颜色-->
+    <color name="shadow">#66000000</color>
 </resources>

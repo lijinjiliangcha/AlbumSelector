@@ -1,11 +1,11 @@
 package com.sheng.albumselector
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.collection.ArraySet
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -16,7 +16,8 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
 
     private val context: Context
     private val dataList: ArrayList<String>
-    private val selectSet = ArraySet<String>()
+    private val selectList = ArrayList<String>()
+    private val holderList = ArrayList<AlbumHolder>()//保存勾选的holder
     private var max = 1
 
     constructor(context: Context) : super() {
@@ -36,44 +37,59 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
     override fun onBindViewHolder(holder: AlbumHolder, position: Int) {
         val path = dataList[position]
         loadImg(path, holder.iv_img)
+        holder.path = path
         //回显选中
-        holder.isSelect = selectSet.contains(path)
+        val index = selectList.indexOf(path)
+        if (index != -1) {
+            holder.isSelect = true
+            holder.tv_select.text = (index + 1).toString()
+        } else {
+            holder.isSelect = false
+            holder.tv_select.text = ""
+        }
         //点击事件
         holder.itemView.setOnClickListener {
             if (holder.isSelect) {//选中->取消
                 holder.isSelect = false
-                selectSet.remove(path)
+                selectList.remove(path)
+                holderList.remove(holder)
+                refreshSelect()
+//                notifyDataSetChanged()
             } else {//未选中->选中
                 //TODO - 单选模式
                 //多选模式
-                if (selectSet.size >= max) {
+                if (selectList.size >= max) {
                     Toast.makeText(context, "最多只能选择${max}张图片", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 } else {
                     holder.isSelect = true
-                    selectSet.add(path)
+                    selectList.add(path)
+                    holder.tv_select.text = selectList.size.toString()
+                    holderList.add(holder)
                 }
             }
-
         }
     }
 
-
-    fun setSelect(set: ArraySet<String>) {
-        selectSet.clear()
-        selectSet.addAll(set)
-        notifyDataSetChanged()
+    private fun refreshSelect() {
+        holderList.forEach {
+            val index = selectList.indexOf(it.path)
+            Log.i("测试", index.toString())
+            if (index != -1)
+                it.tv_select.text = (index + 1).toString()
+        }
     }
 
     fun setSelect(list: List<String>) {
-        selectSet.clear()
+        selectList.clear()
         list.forEach {
-            selectSet.add(it)
+            selectList.add(it)
         }
         notifyDataSetChanged()
     }
 
-    fun getSelect(): ArraySet<String> {
-        return selectSet
+    fun getSelect(): ArrayList<String> {
+        return selectList
     }
 
     fun setSelectCount(count: Int) {

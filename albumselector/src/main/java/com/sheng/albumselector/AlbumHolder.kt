@@ -2,24 +2,28 @@ package com.sheng.albumselector
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AlbumHolder : RecyclerView.ViewHolder {
 
     val iv_img: ImageView
-    val iv_select: ImageView
+    val tv_select: TextView
+    var path = ""
     var isSelect: Boolean = false
         set(value) {
             if (value)
-                iv_select.setImageResource(R.mipmap.solid)
-            else
-                iv_select.setImageResource(R.mipmap.hollow)
+                tv_select.setBackgroundResource(R.drawable.shape_checked)
+            else {
+                tv_select.setBackgroundResource(R.drawable.shape_unchecked)
+                tv_select.text = ""
+            }
             field = value
         }
 
     constructor(itemView: View) : super(itemView) {
         iv_img = itemView.findViewById(R.id.iv_img)
-        iv_select = itemView.findViewById(R.id.iv_select)
+        tv_select = itemView.findViewById(R.id.tv_select)
     }
 
 //    fun isSelect(flag: Boolean) {
