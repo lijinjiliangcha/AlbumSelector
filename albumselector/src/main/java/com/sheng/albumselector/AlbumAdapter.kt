@@ -71,6 +71,7 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
         }
     }
 
+    //刷新指示器数字 - 避免图片闪烁
     private fun refreshSelect() {
         holderList.forEach {
             val index = selectList.indexOf(it.path)
@@ -80,11 +81,10 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
         }
     }
 
-    fun setSelect(list: List<String>) {
+    fun setSelect(list: List<String>?) {
         selectList.clear()
-        list.forEach {
-            selectList.add(it)
-        }
+        if (list != null)
+            selectList.addAll(list)
         notifyDataSetChanged()
     }
 

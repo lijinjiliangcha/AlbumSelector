@@ -20,14 +20,23 @@ class AlbumActivity : AppCompatActivity() {
     private val context: Context by lazy { this }
     private val permissionCode = 100
 
+    private val adapter by lazy { AlbumAdapter(this) }
+
     companion object {
         val REQUEST_CODE: Int = 2019
         val SPAN_COUNT = "SPAN_COUNT"
         val MAX = "MAX"
+        val SELECT_LIST = "SELECT_LIST"
+        val RESULT_DATA = "RESULT_DATA"
         fun startActivity(activity: Activity, spanCount: Int, max: Int) {
+            startActivity(activity, spanCount, max, null)
+        }
+
+        fun startActivity(activity: Activity, spanCount: Int, max: Int, selectList: ArrayList<String>?) {
             val intent = Intent(activity, AlbumActivity::class.java)
             intent.putExtra(SPAN_COUNT, spanCount)
             intent.putExtra(MAX, max)
+            intent.putExtra(SELECT_LIST, selectList)
             activity.startActivityForResult(intent, REQUEST_CODE)
         }
     }
@@ -53,52 +62,33 @@ class AlbumActivity : AppCompatActivity() {
 
     private fun init() {
         initView()
-        initData()
-        initAdapter()
         initListener()
     }
 
     private fun initView() {
         val spanCount = intent.getIntExtra(SPAN_COUNT, 0)
         val max = intent.getIntExtra(MAX, 1)
+        val list = intent.getStringArrayListExtra(SELECT_LIST)
         rv.layoutManager = GridLayoutManager(context, spanCount)
-        val adapter = AlbumAdapter(this)
-        rv.adapter = adapter
+
+        adapter.setSelect(list)
         adapter.setSelectCount(max)
-    }
-
-    private fun initData() {
-
-    }
-
-    private fun initAdapter() {
-//        adapter = AlbumAdapter(this, imageList)
-        //获取选中的图片
-//        var imgData = intent.getStringExtra("data")
-//        if (imgData != null) {
-//            var list: ArrayList<String> = Gson().fromJson(imgData, object : TypeToken<ArrayList<String>>() {}.type)
-//            list.forEachIndexed { index, s ->
-//                adapter?.addSelect(s)
-//            }
-//        }
-//        rv.adapter = adapter
+        rv.adapter = adapter
     }
 
     private fun initListener() {
-//        adapter?.setOnItemClickListener(object : AlbumAdapter.OnItemClickListener {
-//            override fun onAddClickListener() {
-//                cameraFile = File(Utils.getFilePath(), "zamo-${System.currentTimeMillis()}.jpg")
-//                startActivityForResult(Utils.getCameraIntent(context, cameraFile!!), 100)
-//            }
-//        })
-//        //确定
-//        tv_comfit.setOnClickListener {
-//            var list = adapter?.getSelect()
-//            var intent = Intent()
-//            intent.putExtra("data", Gson().toJson(list))
-//            setResult(Activity.RESULT_OK, intent)
-//            finish()
-//        }
+        //确定
+        tv_submit.setOnClickListener {
+            val list = adapter.getSelect()
+            val intent = Intent()
+            intent.putExtra(RESULT_DATA, list)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        //取消
+        tv_cancel.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

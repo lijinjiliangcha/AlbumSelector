@@ -16,4 +16,8 @@
     <color name="checkTextColor">#fff</color>
     <!--阴影颜色-->
     <color name="shadow">#66000000</color>
+    <!--确定文字颜色-->
+    <color name="submitColor">#fff</color>
+    <!--取消文字颜色-->
+    <color name="cancelColor">#fff</color>
 </resources>
