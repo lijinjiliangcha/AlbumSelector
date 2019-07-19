@@ -94,7 +94,7 @@ class AlbumActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == permissionCode) {
-            //判断一下定位权限
+            //判断一下读写权限
             for (index in 0 until permissions.size) {
                 val str = permissions[index]
                 if (str.equals(Manifest.permission.READ_EXTERNAL_STORAGE))
