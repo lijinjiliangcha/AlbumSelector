@@ -28,10 +28,10 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
 
     private val context: Context by lazy { this }
     private val permissionCode = 100
-    private val mAlbumPop by lazy { AlbumListPopupWindow(this) }
 
     private val adapter by lazy { AlbumAdapter(this) }
-    private val mAlbumLoaderCallbacks by lazy { AlbumLoaderCallbacks(this) }
+    private val mAlbumPop by lazy { AlbumListPopupWindow(this) }// 相册列表弹窗
+    private val mAlbumLoaderCallbacks by lazy { AlbumLoaderCallbacks(this) }// 相册加载的回调
 
     private val URL_LOADER = 402
 
@@ -105,21 +105,25 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
         }
         // 选择相册
         tv_title.setOnClickListener {
-            val albumNameList = mAlbumLoaderCallbacks.getData().map { it.mName } as? ArrayList<String>
-            if (albumNameList.isNullOrEmpty()) {
-                Toast.makeText(this, "读取相册出错", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            mAlbumPop.anchorView = titleLayout
-            mAlbumPop.setAdapter(albumNameList)
-            mAlbumPop.setClickItemChangeListener { tv_title.text = it }
             mAlbumPop.show()
         }
     }
 
     // 初始化数据加载
     private fun initLoader() {
-        lifecycle.addObserver(object : LifecycleObserver {})
+//        lifecycle.addObserver(object : LifecycleObserver {})
+        mAlbumLoaderCallbacks.setLoadFinishedListener {
+            val albumNameList = mAlbumLoaderCallbacks.getData().map {
+                it.mName + " (${it.mList?.size})"
+            } as? ArrayList<String>
+            mAlbumPop.anchorView = titleLayout
+            mAlbumPop.setAdapter(albumNameList!!)
+            mAlbumPop.setClickItemChangeListener {
+                tv_title.text = it
+                mAlbumLoaderCallbacks.getData().find { album -> album.mName == it }
+//                adapter.setData()
+            }
+        }
         supportLoaderManager.initLoader(URL_LOADER, null, mAlbumLoaderCallbacks)
     }
 

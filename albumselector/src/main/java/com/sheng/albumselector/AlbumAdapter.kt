@@ -111,4 +111,17 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
             .into(imageView)
     }
 
+    // 设置列表数据并刷新
+    fun setData(list: ArrayList<String>){
+        clear()
+        dataList.clear()
+        dataList.addAll(list)
+    }
+
+    // 清除已经选择等缓存、标记，避免意外
+    fun clear(){
+        holderList.clear()
+        selectList.clear()
+    }
+
 }
