@@ -106,6 +106,7 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
 
         Glide.with(context)
             .load(path)
+            .thumbnail(0.85f)
             .apply(optionsCacheNone)
             .into(imageView)
     }

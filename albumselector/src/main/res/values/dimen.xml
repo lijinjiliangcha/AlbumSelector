@@ -4,4 +4,7 @@
     <!--指示器线宽-->
     <dimen name="indicatorStrokeWidth">1.3dp</dimen>
 
+    <!--相册列表高度-->
+    <dimen name="albumItemHeight">36dp</dimen>
+
 </resources>

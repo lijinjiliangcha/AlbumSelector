@@ -18,6 +18,7 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_arrow_drop_down_white_24dp"
             android:text="标题"
             android:textColor="@color/titleTextColor"
             android:textSize="17sp"
@@ -51,6 +52,20 @@
             android:textColor="@color/cancelColor"
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="parent" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_album"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:drawableRight="@drawable/ic_arrow_drop_down_white_24dp"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:paddingRight="5dp"-->
+        <!--android:text="点击选择相册"-->
+        <!--android:textColor="@color/submitColor"-->
+        <!--android:textSize="15sp"-->
+        <!--app:layout_constraintLeft_toRightOf="@id/tv_cancel" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

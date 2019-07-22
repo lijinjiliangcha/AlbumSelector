@@ -5,22 +5,35 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
-import android.view.Window
+import android.provider.MediaStore
+import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.Loader
 import androidx.recyclerview.widget.GridLayoutManager
+import com.sheng.albumselector.entity.AlbumEntity
 import kotlinx.android.synthetic.main.activity_album.*
+import java.io.File
 
-class AlbumActivity : AppCompatActivity() {
+class AlbumActivity : AppCompatActivity(), LifecycleOwner {
 
     private val context: Context by lazy { this }
     private val permissionCode = 100
+    private val mAlbumPop by lazy { AlbumListPopupWindow(this) }
 
     private val adapter by lazy { AlbumAdapter(this) }
+    private val mAlbumLoaderCallbacks by lazy { AlbumLoaderCallbacks(this) }
+
+    private val URL_LOADER = 402
 
     companion object {
         val REQUEST_CODE: Int = 2019
@@ -63,6 +76,7 @@ class AlbumActivity : AppCompatActivity() {
     private fun init() {
         initView()
         initListener()
+        initLoader()
     }
 
     private fun initView() {
@@ -89,6 +103,24 @@ class AlbumActivity : AppCompatActivity() {
         tv_cancel.setOnClickListener {
             finish()
         }
+        // 选择相册
+        tv_title.setOnClickListener {
+            val albumNameList = mAlbumLoaderCallbacks.getData().map { it.mName } as? ArrayList<String>
+            if (albumNameList.isNullOrEmpty()) {
+                Toast.makeText(this, "读取相册出错", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            mAlbumPop.anchorView = titleLayout
+            mAlbumPop.setAdapter(albumNameList)
+            mAlbumPop.setClickItemChangeListener { tv_title.text = it }
+            mAlbumPop.show()
+        }
+    }
+
+    // 初始化数据加载
+    private fun initLoader() {
+        lifecycle.addObserver(object : LifecycleObserver {})
+        supportLoaderManager.initLoader(URL_LOADER, null, mAlbumLoaderCallbacks)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
