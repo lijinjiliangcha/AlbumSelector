@@ -22,7 +22,7 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
 
     constructor(context: Context) : super() {
         this.context = context
-        dataList = Utils.getImagesMedia(context)
+        dataList = Utils.getImagesMedia2(context)
     }
 
     override fun getItemCount(): Int {

@@ -36,13 +36,42 @@ object Utils {
         return list
     }
 
+    fun getImagesMedia2(context: Context): ArrayList<String> {
+        val list = ArrayList<String>()
+        //获取系统数据库保存的图库
+        val loader = CursorLoader(
+            context,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA),
+            null,
+            null,
+            null
+        )
+        val cursor: Cursor? = loader.loadInBackground()
+        if (cursor != null) {
+            val iId = cursor.getColumnIndex(MediaStore.Images.Media._ID)
+            val iPath = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+//                var id = cursor.getString(iId);
+                val path = cursor.getString(iPath);
+                Log.i("测试", "path = $path")
+                list.add(path);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+
+        return list
+    }
+
     fun getPhotoLoader(context: Context): CursorLoader {
         val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//        val selection = MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?"
-//        val selectionArgs = arrayOf("image/jpeg", "image/png")
         val sortOrder = MediaStore.Images.Media.DATE_ADDED + " desc"
         val projection = arrayOf<String>(MediaStore.Images.Media._ID
             , MediaStore.Images.Media.DATA)
         return CursorLoader(context, uri, projection, null, null, sortOrder)
     }
+
+
 }
