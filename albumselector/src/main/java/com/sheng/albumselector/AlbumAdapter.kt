@@ -116,6 +116,7 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
         clear()
         dataList.clear()
         dataList.addAll(list)
+        notifyDataSetChanged()
     }
 
     // 清除已经选择等缓存、标记，避免意外

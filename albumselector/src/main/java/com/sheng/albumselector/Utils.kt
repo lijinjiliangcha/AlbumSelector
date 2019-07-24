@@ -4,9 +4,11 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.util.Log
 import androidx.loader.content.CursorLoader
+import org.jetbrains.annotations.Contract
 import java.util.ArrayList
 
 object Utils {
@@ -66,6 +68,7 @@ object Utils {
     }
 
     fun getPhotoLoader(context: Context): CursorLoader {
+        ContactsContract.Contacts.CONTENT_URI
         val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val sortOrder = MediaStore.Images.Media.DATE_ADDED + " desc"
         val projection = arrayOf<String>(MediaStore.Images.Media._ID

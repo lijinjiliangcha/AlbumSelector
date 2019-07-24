@@ -51,7 +51,6 @@ class AlbumLoaderCallbacks(private val mContext: Context) : LoaderManager.Loader
             }
             cursor.moveToNext()
         }
-        cursor.close()
         mLoadFinishedListener?.invoke()
     }
 

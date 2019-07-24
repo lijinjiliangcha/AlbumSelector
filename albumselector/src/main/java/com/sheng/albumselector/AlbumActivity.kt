@@ -111,17 +111,16 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
 
     // 初始化数据加载
     private fun initLoader() {
-//        lifecycle.addObserver(object : LifecycleObserver {})
         mAlbumLoaderCallbacks.setLoadFinishedListener {
             val albumNameList = mAlbumLoaderCallbacks.getData().map {
-                it.mName + " (${it.mList?.size})"
+                it.mName
             } as? ArrayList<String>
             mAlbumPop.anchorView = titleLayout
             mAlbumPop.setAdapter(albumNameList!!)
             mAlbumPop.setClickItemChangeListener {
                 tv_title.text = it
-                mAlbumLoaderCallbacks.getData().find { album -> album.mName == it }
-//                adapter.setData()
+                val entity = mAlbumLoaderCallbacks.getData().find { album -> album.mName == it }
+                entity?.mList?.let { it1 -> adapter.setData(it1) }
             }
         }
         supportLoaderManager.initLoader(URL_LOADER, null, mAlbumLoaderCallbacks)
