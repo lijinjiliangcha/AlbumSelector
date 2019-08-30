@@ -9,6 +9,4 @@
     android:paddingStart="15dp"
     android:text="fdsafsd"
     android:textColor="@color/titleColor"
-    android:textSize="15sp">
-
-</TextView>
+    android:textSize="15sp"/>

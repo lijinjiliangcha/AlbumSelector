@@ -17,7 +17,7 @@ class AlbumListPopupWindow : ListPopupWindow {
     private var mContext: Context? = null
     private val mMaxCount = 6// 弹窗的展现上限个数
 
-    private var mCursorAdapter : CursorAdapter? = null
+    private var mCursorAdapter: CursorAdapter? = null
 
     // 监听器
     private var mOnClickItemChangeListener: ((String) -> Unit)? = null
@@ -30,16 +30,10 @@ class AlbumListPopupWindow : ListPopupWindow {
         horizontalOffset = (16 * density).toInt()
         verticalOffset = (-0 * density).toInt()
         setOnItemClickListener { parent, view, position, id ->
-            mAdapter?.let {
-                it.getItem(position)?.let { target -> mOnClickItemChangeListener?.invoke(target) }
-            }
+            mOnClickItemChangeListener?.invoke(mAdapter?.getItem(position) ?: "")
             dismiss()
         }
     }
-
-//    fun setCursorAdapter(adapter: CursorAdapter){
-//        this.mCursorAdapter = adapter
-//    }
 
     fun setAdapter(list: ArrayList<String>) {
         mCursorAdapter = AlbumCursorAdapter(mContext!!, null, false)

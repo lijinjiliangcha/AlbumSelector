@@ -107,23 +107,29 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
         tv_title.setOnClickListener {
             mAlbumPop.show()
         }
+        //分类选择器
+        mAlbumPop.setClickItemChangeListener {
+            tv_title.text = it
+            val entity = mAlbumLoaderCallbacks.getData()[it]
+            adapter.setData(entity)
+        }
+        //加载数据回调
+        mAlbumLoaderCallbacks.setLoadFinishedListener {
+            val allText = mAlbumLoaderCallbacks.ALL
+            val list = it[allText]
+            adapter.setData(list)
+            val albumNameList = it.map {
+                it.key
+            } as? ArrayList<String>
+            albumNameList?.sortWith(AlbumComparator(allText))
+            mAlbumPop.anchorView = titleLayout
+            mAlbumPop.setAdapter(albumNameList!!)
+        }
     }
 
     // 初始化数据加载
     private fun initLoader() {
-        mAlbumLoaderCallbacks.setLoadFinishedListener {
-            val albumNameList = mAlbumLoaderCallbacks.getData().map {
-                it.mName
-            } as? ArrayList<String>
-            mAlbumPop.anchorView = titleLayout
-            mAlbumPop.setAdapter(albumNameList!!)
-            mAlbumPop.setClickItemChangeListener {
-                tv_title.text = it
-                val entity = mAlbumLoaderCallbacks.getData().find { album -> album.mName == it }
-                entity?.mList?.let { it1 -> adapter.setData(it1) }
-            }
-        }
-        supportLoaderManager.initLoader(URL_LOADER, null, mAlbumLoaderCallbacks)
+        LoaderManager.getInstance(this).initLoader(URL_LOADER, null, mAlbumLoaderCallbacks)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

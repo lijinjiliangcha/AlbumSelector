@@ -15,18 +15,17 @@ import com.bumptech.glide.request.RequestOptions
 class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
 
     private val context: Context
-    private val dataList: ArrayList<String>
+    private var dataList: ArrayList<String>? = null
     private val selectList = ArrayList<String>()
     private val holderList = ArrayList<AlbumHolder>()//保存勾选的holder
     private var max = 1
 
     constructor(context: Context) : super() {
         this.context = context
-        dataList = Utils.getImagesMedia2(context)
     }
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return dataList?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumHolder {
@@ -35,7 +34,7 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
     }
 
     override fun onBindViewHolder(holder: AlbumHolder, position: Int) {
-        val path = dataList[position]
+        val path = dataList!![position]
         loadImg(path, holder.iv_img)
         holder.path = path
         //回显选中
@@ -112,15 +111,14 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
     }
 
     // 设置列表数据并刷新
-    fun setData(list: ArrayList<String>){
+    fun setData(list: ArrayList<String>?) {
         clear()
-        dataList.clear()
-        dataList.addAll(list)
+        dataList = list ?: ArrayList()
         notifyDataSetChanged()
     }
 
     // 清除已经选择等缓存、标记，避免意外
-    fun clear(){
+    fun clear() {
         holderList.clear()
         selectList.clear()
     }
