@@ -1,4 +1,4 @@
-package com.sheng.albumselector
+package com.sheng.albumselector.utils
 
 import android.content.ContentResolver
 import android.content.Context

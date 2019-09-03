@@ -1,4 +1,4 @@
-package com.sheng.albumselector
+package com.sheng.albumselector.callback
 
 import android.content.Context
 import android.database.Cursor
@@ -7,7 +7,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
-import com.sheng.albumselector.entity.AlbumEntity
+import com.sheng.albumselector.utils.Utils
 import java.io.File
 
 class AlbumLoaderCallbacks(private val mContext: Context) : LoaderManager.LoaderCallbacks<Cursor> {

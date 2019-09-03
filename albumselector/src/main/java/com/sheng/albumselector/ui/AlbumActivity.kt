@@ -1,37 +1,37 @@
-package com.sheng.albumselector
+package com.sheng.albumselector.ui
 
 import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.loader.app.LoaderManager
-import androidx.loader.content.Loader
 import androidx.recyclerview.widget.GridLayoutManager
-import com.sheng.albumselector.entity.AlbumEntity
+import com.sheng.albumselector.*
+import com.sheng.albumselector.adpater.AlbumAdapter
+import com.sheng.albumselector.callback.AlbumLoaderCallbacks
+import com.sheng.albumselector.widget.AlbumIndexPopupWindow
 import kotlinx.android.synthetic.main.activity_album.*
-import java.io.File
 
 class AlbumActivity : AppCompatActivity(), LifecycleOwner {
 
     private val context: Context by lazy { this }
     private val permissionCode = 100
 
-    private val adapter by lazy { AlbumAdapter(this) }
-    private val mAlbumPop by lazy { AlbumListPopupWindow(this) }// 相册列表弹窗
-    private val mAlbumLoaderCallbacks by lazy { AlbumLoaderCallbacks(this) }// 相册加载的回调
+    private val adapter by lazy { AlbumAdapter(context) }
+    private val mAlbumPop by lazy { AlbumIndexPopupWindow(context) }// 相册列表弹窗
+    private val mAlbumLoaderCallbacks by lazy {
+        AlbumLoaderCallbacks(
+            this
+        )
+    }// 相册加载的回调
 
     private val URL_LOADER = 402
 
@@ -42,7 +42,12 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
         val SELECT_LIST = "SELECT_LIST"
         val RESULT_DATA = "RESULT_DATA"
         fun startActivity(activity: Activity, spanCount: Int, max: Int) {
-            startActivity(activity, spanCount, max, null)
+            startActivity(
+                activity,
+                spanCount,
+                max,
+                null
+            )
         }
 
         fun startActivity(activity: Activity, spanCount: Int, max: Int, selectList: ArrayList<String>?) {
@@ -50,7 +55,9 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
             intent.putExtra(SPAN_COUNT, spanCount)
             intent.putExtra(MAX, max)
             intent.putExtra(SELECT_LIST, selectList)
-            activity.startActivityForResult(intent, REQUEST_CODE)
+            activity.startActivityForResult(intent,
+                REQUEST_CODE
+            )
         }
     }
 
@@ -108,10 +115,11 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
             mAlbumPop.show()
         }
         //分类选择器
-        mAlbumPop.setClickItemChangeListener {
+        mAlbumPop.setClickItemChangeListener { it, _ ->
             tv_title.text = it
             val entity = mAlbumLoaderCallbacks.getData()[it]
             adapter.setData(entity)
+            mAlbumPop.dismiss()
         }
         //加载数据回调
         mAlbumLoaderCallbacks.setLoadFinishedListener {
@@ -122,8 +130,8 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
                 it.key
             } as? ArrayList<String>
             albumNameList?.sortWith(AlbumComparator(allText))
-            mAlbumPop.anchorView = titleLayout
-            mAlbumPop.setAdapter(albumNameList!!)
+            mAlbumPop.anchor = titleLayout
+            mAlbumPop.setData(albumNameList!!)
         }
     }
 

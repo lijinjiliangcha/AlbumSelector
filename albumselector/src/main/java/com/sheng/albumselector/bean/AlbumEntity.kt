@@ -1,4 +1,4 @@
-package com.sheng.albumselector.entity
+package com.sheng.albumselector.bean
 
 /**
  * 相册的实体类

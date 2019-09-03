@@ -6,5 +6,7 @@
 
     <!--相册列表高度-->
     <dimen name="albumItemHeight">36dp</dimen>
+    <dimen name="albumIndexMaxHeight">180dp</dimen>
+    <dimen name="albumIndexWidth">216dp</dimen>
 
 </resources>

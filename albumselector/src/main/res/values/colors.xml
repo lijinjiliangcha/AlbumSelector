@@ -20,4 +20,6 @@
     <color name="submitColor">#fff</color>
     <!--取消文字颜色-->
     <color name="cancelColor">#fff</color>
+    <!--目录背景颜色-->
+    <color name="indexColor">#eee</color>
 </resources>

@@ -1,4 +1,4 @@
-package com.sheng.albumselector
+package com.sheng.albumselector.adpater
 
 import android.content.Context
 import android.util.Log
@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
+import com.sheng.albumselector.adpater.holder.AlbumHolder
+import com.sheng.albumselector.R
 
 class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
 
