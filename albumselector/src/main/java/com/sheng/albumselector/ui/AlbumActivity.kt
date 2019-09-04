@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sheng.albumselector.*
 import com.sheng.albumselector.adpater.AlbumAdapter
 import com.sheng.albumselector.callback.AlbumLoaderCallbacks
+import com.sheng.albumselector.utils.AlbumComparator
 import com.sheng.albumselector.widget.AlbumIndexPopupWindow
 import kotlinx.android.synthetic.main.activity_album.*
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AlbumIndexPopupWindow_animStyle" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/index_entry</item>
-        <item name="android:windowExitAnimation">@anim/index_out</item>
+    <style name="AlbumIndexPopupWindow_animStyle">
+        <item name="EnterAnimation">@anim/index_entry</item>
+        <item name="ExitAnimation">@anim/index_out</item>
     </style>
 
 </resources>
