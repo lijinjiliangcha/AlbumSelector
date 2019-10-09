@@ -22,4 +22,6 @@
     <color name="cancelColor">#fff</color>
     <!--目录背景颜色-->
     <color name="indexColor">#eee</color>
+    <!--item背景颜色-->
+    <color name="itemBg">#666</color>
 </resources>

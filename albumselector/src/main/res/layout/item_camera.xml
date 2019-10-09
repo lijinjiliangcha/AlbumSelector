@@ -9,27 +9,13 @@
         android:id="@+id/iv_img"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/itemBg"
+        android:src="@mipmap/xiangji"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_select"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/shape_unchecked"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:textColor="@color/checkTextColor"
-        android:textSize="11sp"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.17" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

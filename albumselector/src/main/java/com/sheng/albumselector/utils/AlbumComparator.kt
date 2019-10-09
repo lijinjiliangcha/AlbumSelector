@@ -1,7 +1,6 @@
 package com.sheng.albumselector.utils
 
 //排序器
-
 class AlbumComparator(private val allText: String) : Comparator<String> {
 
     override fun compare(s1: String, s2: String): Int {

@@ -70,7 +70,7 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(context.resources.getColor(R.color.titleColor));
+            window.setStatusBarColor(ContextCompat.getColor(context, R.color.titleColor));
         }
         //申请权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

@@ -13,8 +13,19 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.sheng.albumselector.adpater.holder.AlbumHolder
 import com.sheng.albumselector.R
+import com.sheng.albumselector.adpater.holder.CameraHolder
+import com.sheng.albumselector.utils.IntentUtils
 
-class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
+class AlbumAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private val DEFAULT = 0
+    private val CAMERA = 1
+
+    var openCamera: Boolean = true
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     private val context: Context
     private var dataList: ArrayList<String>? = null
@@ -27,15 +38,51 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumHolder> {
     }
 
     override fun getItemCount(): Int {
-        return dataList?.size ?: 0
+        var size = dataList?.size ?: 0
+        if (openCamera)
+            size += 1
+        return size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item, parent, false)
-        return AlbumHolder(view)
+    override fun getItemViewType(position: Int): Int {
+        if (position == 0 && openCamera)
+            return CAMERA
+        else
+            return DEFAULT
     }
 
-    override fun onBindViewHolder(holder: AlbumHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val holder: RecyclerView.ViewHolder
+        val inflate = LayoutInflater.from(context)
+        when (viewType) {
+            CAMERA -> {
+                val view = inflate.inflate(R.layout.item_camera, parent, false)
+                holder = CameraHolder(view)
+            }
+            else -> {
+                val view = inflate.inflate(R.layout.item, parent, false)
+                holder = AlbumHolder(view)
+            }
+        }
+
+        return holder
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            CAMERA -> bindCameraHolder(holder as CameraHolder)
+            DEFAULT -> bindAlbumHolder(holder as AlbumHolder, position - 1)
+        }
+    }
+
+    private fun bindCameraHolder(holder: CameraHolder) {
+        holder.itemView.setOnClickListener {
+            val intent = IntentUtils.getCameraIntent(context, System.currentTimeMillis().toString())
+            context.startActivity(intent)
+        }
+    }
+
+    private fun bindAlbumHolder(holder: AlbumHolder, position: Int) {
         val path = dataList!![position]
         loadImg(path, holder.iv_img)
         holder.path = path
