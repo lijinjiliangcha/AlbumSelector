@@ -28,11 +28,7 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
 
     private val adapter by lazy { AlbumAdapter(context) }
     private val mAlbumPop by lazy { AlbumIndexPopupWindow(context) }// 相册列表弹窗
-    private val mAlbumLoaderCallbacks by lazy {
-        AlbumLoaderCallbacks(
-            this
-        )
-    }// 相册加载的回调
+    private val mAlbumLoaderCallbacks by lazy { AlbumLoaderCallbacks(this) }// 相册加载的回调
 
     private val URL_LOADER = 402
 
@@ -43,12 +39,7 @@ class AlbumActivity : AppCompatActivity(), LifecycleOwner {
         val SELECT_LIST = "SELECT_LIST"
         val RESULT_DATA = "RESULT_DATA"
         fun startActivity(activity: Activity, spanCount: Int, max: Int) {
-            startActivity(
-                activity,
-                spanCount,
-                max,
-                null
-            )
+            startActivity(activity, spanCount, max, null)
         }
 
         fun startActivity(activity: Activity, spanCount: Int, max: Int, selectList: ArrayList<String>?) {

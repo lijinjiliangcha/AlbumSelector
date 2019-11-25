@@ -1,15 +1,21 @@
 package com.sheng.albumselector.widget
 
 import android.content.Context
+import android.graphics.Rect
+import android.os.Build
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.sheng.albumselector.R
 import com.sheng.albumselector.adpater.AlbumIndexAdapter
-import com.sheng.albumselector.utils.ResourcesUtils
+import android.view.WindowManager
+import com.sheng.albumselector.R
+import com.sheng.albumselector.utils.Utils
+
 
 class AlbumIndexPopupWindow : PopupWindow {
 
@@ -23,9 +29,7 @@ class AlbumIndexPopupWindow : PopupWindow {
     private var exitAnimation: Animation? = null
     private var isShowAnim = false
 
-    constructor(context: Context) : super(View.inflate(context, R.layout.popup_index, null),
-        GridLayout.LayoutParams.MATCH_PARENT,
-        ResourcesUtils.getDimens(context, R.dimen.albumIndexMaxHeight)) {
+    constructor(context: Context) : super(View.inflate(context, R.layout.popup_index, null), GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.MATCH_PARENT) {
         this.context = context
         isOutsideTouchable = true
 //        setBackgroundDrawable(BitmapDrawable())
@@ -76,6 +80,30 @@ class AlbumIndexPopupWindow : PopupWindow {
         anchor?.let {
             if (isShowAnim)
                 return
+//            showAsDropDown(anchor, 200, 200, Gravity.TOP)
+//            showAtLocation(anchor, Gravity.TOP, 0, 50)
+            if (Build.VERSION.SDK_INT > 24 && height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                val location = IntArray(2)
+                anchor?.getLocationInWindow(location);
+                val manager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                val dm = DisplayMetrics();
+                manager.getDefaultDisplay().getRealMetrics(dm)
+                val height = dm.heightPixels - location[1] - (anchor?.height ?: 0) - Utils.getNavigationBarHeightIfRoom(context)
+//                Log.i("测试", "outMetrics.heightPixels = ${dm.heightPixels}，height = $height")
+                setHeight(height)
+
+//                val root = anchor?.getRootView()
+//                Log.i("测试","root = $root")
+//                val location2 = IntArray(2)
+//                root?.getLocationInWindow(location2)
+//                val rect = Rect()
+//                root?.getGlobalVisibleRect(rect)
+//                val h =  rect.bottom - (anchor?.height ?: 0)
+//                Log.i("测试", "x = ${location2[0]}，y = ${location2[1]}")
+//                Log.i("测试", "t = ${rect.top}，l = ${rect.left}，r = ${rect.right}，b = ${rect.bottom}")
+//                Log.i("测试", "h = $h")
+//                setHeight(h)
+            }
             showAsDropDown(anchor)
             enterAnimation.let { contentView.startAnimation(enterAnimation) }
         }
